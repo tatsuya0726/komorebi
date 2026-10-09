@@ -1,3 +1,4 @@
+import {fortuneDetails} from './fortune-details.js';
 import {beautyData} from './beauty-data.js';
 export const beautyGuide = {verifiedOn:beautyData.checkedAt,status:'verified',disclaimer:beautyData.disclaimer,sections:[...new Set(beautyData.cards.map(c=>c.category))].map(category=>({title:category,items:beautyData.cards.filter(c=>c.category===category).map(c=>({title:c.title,text:c.body,tips:c.tips,sources:c.sourceIds.map(id=>beautyData.sources.find(s=>s.id===id))})),sources:beautyData.sources.filter(s=>beautyData.cards.some(c=>c.category===category&&c.sourceIds.includes(s.id)))})),products:beautyData.products};
 export function dailyFortune(date=new Date()) {
@@ -13,5 +14,5 @@ export function dailyFortune(date=new Date()) {
   ];
   let hash=0;for(const char of key)hash=(hash*31+char.charCodeAt(0))>>>0;
   const [title,message]=messages[hash%messages.length];
-  return {title,message,date:key,disclaimer:'娯楽・気分転換のためのメッセージです。未来や運命を予測するものではなく、心理研究・診断とは関係ありません。'};
+  return {title,message,date:key,...fortuneDetails(date),disclaimer:'娯楽・気分転換のためのメッセージです。未来や運命を予測するものではなく、心理研究・診断とは関係ありません。'};
 }
